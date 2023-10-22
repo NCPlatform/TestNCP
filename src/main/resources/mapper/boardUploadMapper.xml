@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="board.dao.BoardDAO">
+  
+  	<insert id="upload">
+		insert into userimage(imageName,imageContent,imageFileName,imageOriginalName) values
+		<foreach collection="list" item="dto" separator=",">
+			(#{dto.imageName},#{dto.imageContent},#{dto.imageFileName},#{dto.imageOriginalName})
+		</foreach> 
+	</insert>
+	
+	<select id="getUploadList" resultType="board.bean.UserImageDTO">
+		select * from userimage order by seq desc;
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from userimage where seq=#{seq};
+	</delete>
+	
+	<update id="editComplete" parameterType="java.util.Map">
+		UPDATE userimage SET imageName=#{imageName}, imageContent=#{imageContent}
+		,imageFileName=#{imageFileName},imageOriginalName=#{imageOriginalName} WHERE seq=#{seq}
+	</update>
+	<!-- ddddd -->
+	
+	<select id="getImageFileName" parameterType="int" resultType="java.lang.String">
+		select imageFileName from userimage where seq=#{seq}
+	</select>
+  
+  </mapper>
